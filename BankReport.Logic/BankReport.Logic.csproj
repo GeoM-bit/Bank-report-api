@@ -6,10 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="ApiModels\WeatherForecast.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="ApiModels\" />
   </ItemGroup>
 
