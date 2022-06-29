@@ -14,6 +14,8 @@ namespace BankReport.DatabaseModels
         public string QwnerName { get; set; }
         public string Currency { get; set; }
 
+        public ICollection<Transaction> TransactionId { get; set; }
+
     }
 
     public enum _AccountType
