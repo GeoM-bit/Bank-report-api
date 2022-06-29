@@ -8,7 +8,7 @@
         public string QwnerName { get; set; }
         public string Currency { get; set; }
 
-        public ICollection<Transaction> TransactionId { get; set; }
+        public virtual ICollection<Transaction> Transactions { get; set; }
 
     }
 

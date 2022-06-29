@@ -3,7 +3,6 @@ using System;
 using BankReport.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,10 +10,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BankReport.Context.Migrations
 {
     [DbContext(typeof(ReportBankDbContext))]
-    [Migration("20220629144009_Added_Transaction")]
-    partial class Added_Transaction
+    partial class ReportBankDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.6");
@@ -48,7 +46,7 @@ namespace BankReport.Context.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("AccountIdId")
+                    b.Property<Guid>("AccountId")
                         .HasColumnType("TEXT");
 
                     b.Property<double>("Amount")
@@ -62,23 +60,25 @@ namespace BankReport.Context.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountIdId");
+                    b.HasIndex("AccountId");
 
                     b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("BankReport.DatabaseModels.Transaction", b =>
                 {
-                    b.HasOne("BankReport.DatabaseModels.Account", "AccountId")
-                        .WithMany("TransactionId")
-                        .HasForeignKey("AccountIdId");
+                    b.HasOne("BankReport.DatabaseModels.Account", "Account")
+                        .WithMany("Transactions")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("AccountId");
+                    b.Navigation("Account");
                 });
 
             modelBuilder.Entity("BankReport.DatabaseModels.Account", b =>
                 {
-                    b.Navigation("TransactionId");
+                    b.Navigation("Transactions");
                 });
 #pragma warning restore 612, 618
         }
