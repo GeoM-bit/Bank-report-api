@@ -8,6 +8,8 @@
         public string QwnerName { get; set; }
         public string Currency { get; set; }
 
+        public virtual ICollection<Transaction> Transactions { get; set; }
+
     }
 
     public enum AccountType

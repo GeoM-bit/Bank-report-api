@@ -9,5 +9,6 @@ namespace BankReport.Context
         {}
 
         public DbSet<Account> Accounts { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
     }
 }
