@@ -13,4 +13,8 @@
     <ProjectReference Include="..\BankReport.Logic\BankReport.Logic.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 </Project>

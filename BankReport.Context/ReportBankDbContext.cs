@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BankReport.DatabaseModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace BankReport.Context
 {
@@ -6,5 +7,7 @@ namespace BankReport.Context
     {
         public ReportBankDbContext(DbContextOptions<ReportBankDbContext> options): base(options)
         {}
+
+        public DbSet<Account> Accounts { get; set; }
     }
 }
