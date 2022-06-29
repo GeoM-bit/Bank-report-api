@@ -3,6 +3,7 @@ using System;
 using BankReport.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BankReport.Context.Migrations
 {
     [DbContext(typeof(ReportBankDbContext))]
-    partial class ReportBankDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220629144009_Added_Transaction")]
+    partial class Added_Transaction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.6");
