@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BankReport.Logic.Repositories
 {
-    public class AccountRepository : IRepository<Account,guid>
+    public class AccountRepository : IRepository<Account,Guid>
     {
         private ReportBankDbContext context;
 
