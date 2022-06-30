@@ -9,4 +9,13 @@
     <Folder Include="ApiModels\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="6.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BankReport.Context\BankReport.Context.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -9,6 +9,7 @@ namespace BankReport.Logic.Repositories
         void Post(T entity);
         void Put(K id);
         void Delete(K id);
+        void Save();
 
     }
 }

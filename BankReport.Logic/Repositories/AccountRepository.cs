@@ -1,33 +1,41 @@
-﻿using BankReport.Context;
+﻿using AutoMapper;
+using BankReport.Context;
 using BankReport.DatabaseModels;
+using BankReport.Logic.DtoModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace BankReport.Logic.Repositories
 {
-    public class AccountRepository : IRepository<Account,Guid>
+    public class AccountRepository : IRepository<Account,AccountDto,Guid>
     {
         private ReportBankDbContext context;
 
+        Mapper mapper = new Mapper(new MapperConfiguration(cfg=>cfg.CreateMap<Account,AccountDto>()));
         public AccountRepository(ReportBankDbContext context)
         {
             this.context = context;
         }
 
-        public IQueryable<Account> GetAll()
+        public IQueryable<AccountDto> GetAll()
         {
-            return (IQueryable<Account>)context.Accounts.ToList();
+            List <AccountDto> results= new List<AccountDto>();
+            foreach(var element in (IQueryable<Account>)context.Accounts.ToList())
+            {
+                results.Add(mapper.Map<AccountDto>(element));
+            }
+            return results.AsQueryable();
         }
 
-        public Account GetById(Guid id)
+        public AccountDto GetById(Guid id)
         {
-            return context.Accounts.Find(id);
+            return mapper.Map<AccountDto>(context.Accounts.Find(id));
         }
 
         public void Post(Account account)
         {
             context.Accounts.Add(account);
         }
-
+        
         public void Put(Guid id)
         {
             Account account=context.Accounts.Find(id);
@@ -38,6 +46,11 @@ namespace BankReport.Logic.Repositories
         {
             Account account = context.Accounts.Find(id);
             context.Accounts.Remove(account);
+        }
+
+        public void Save()
+        {
+            context.SaveChanges();
         }
 
     }
