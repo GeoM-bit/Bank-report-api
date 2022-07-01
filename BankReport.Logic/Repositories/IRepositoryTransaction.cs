@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-
-namespace BankReport.Logic.Repositories
+﻿namespace BankReport.Logic.Repositories
 {
-    public interface IRepository<TEntity,TId>
+    public interface IRepositoryTransaction<TEntity, TId>
     {
         Task<List<TEntity>> GetAll();
         Task<TEntity> GetById(TId id);
@@ -10,6 +8,5 @@ namespace BankReport.Logic.Repositories
         Task Put(TId id, TEntity entity);
         Task Delete(TId id);
         void Save();
-
     }
 }

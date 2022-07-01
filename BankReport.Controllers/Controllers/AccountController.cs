@@ -9,10 +9,10 @@ namespace BankReport.Controllers.Controllers
     [Route("api/[controller]")]
     public class AccountController : ControllerBase
     {
-        private readonly IRepository<Account, Guid> _repository;
+        private readonly IRepositoryAccount<Account, Guid> _repository;
 
         private readonly IMapper _mapper;
-        public AccountController(IRepository<Account, Guid> repository, IMapper mapper)
+        public AccountController(IRepositoryAccount<Account, Guid> repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
