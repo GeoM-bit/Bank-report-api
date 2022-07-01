@@ -1,6 +1,6 @@
 ﻿namespace BankReport.Logic.DtoModels
 {
-    public class Transaction
+    public class TransactionDto
     {
         public Guid Id { get; set; }
         public Guid AccountId { get; set; }
