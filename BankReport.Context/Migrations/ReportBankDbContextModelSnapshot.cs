@@ -32,7 +32,7 @@ namespace BankReport.Context.Migrations
                     b.Property<string>("Iban")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("QwnerName")
+                    b.Property<string>("OwnerName")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

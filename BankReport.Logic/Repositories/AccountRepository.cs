@@ -1,56 +1,59 @@
-﻿using AutoMapper;
-using BankReport.Context;
+﻿using BankReport.Context;
 using BankReport.DatabaseModels;
 using BankReport.Logic.DtoModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace BankReport.Logic.Repositories
 {
-    public class AccountRepository : IRepository<Account,AccountDto,Guid>
+    public class AccountRepository : IRepository<Account,Guid>
     {
-        private ReportBankDbContext context;
+        private readonly ReportBankDbContext _context;
 
-        Mapper mapper = new Mapper(new MapperConfiguration(cfg=>cfg.CreateMap<Account,AccountDto>()));
         public AccountRepository(ReportBankDbContext context)
         {
-            this.context = context;
+            _context = context;
         }
 
-        public IQueryable<AccountDto> GetAll()
+        public async Task<List<Account>> GetAll()
         {
-            List <AccountDto> results= new List<AccountDto>();
-            foreach(var element in (IQueryable<Account>)context.Accounts.ToList())
-            {
-                results.Add(mapper.Map<AccountDto>(element));
-            }
-            return results.AsQueryable();
+            var result = await _context.Accounts.ToListAsync();
+
+            return result;
         }
 
-        public AccountDto GetById(Guid id)
+        public async Task<Account> GetById(Guid id)
         {
-            return mapper.Map<AccountDto>(context.Accounts.Find(id));
+           var result = await _context.Accounts.FirstOrDefaultAsync(x => x.Id==id);
+
+           return result;
         }
 
-        public void Post(Account account)
+        public async Task Post(Account account)
         {
-            context.Accounts.Add(account);
+            await _context.Accounts.AddAsync(account);
+            this.Save();
         }
         
-        public void Put(Guid id)
+        public async Task Put(Guid id, Account account)
         {
-            Account account=context.Accounts.Find(id);
-            context.Entry(account).State = EntityState.Modified;
+            var accountFromDb= await _context.Accounts.FirstOrDefaultAsync(x => x.Id == id);
+            accountFromDb.Currency = account.Currency;
+            accountFromDb.Iban= account.Iban;   
+            accountFromDb.AccountType = account.AccountType;
+            _context.Accounts.Update(accountFromDb);
+            this.Save();
         }
 
-        public void Delete(Guid id)
+        public async Task Delete(Guid id)
         {
-            Account account = context.Accounts.Find(id);
-            context.Accounts.Remove(account);
+            var accountFromDb = await _context.Accounts.FirstOrDefaultAsync(x => x.Id == id);
+            _context.Accounts.Remove(accountFromDb);
+            this.Save();
         }
 
         public void Save()
         {
-            context.SaveChanges();
+            _context.SaveChanges();
         }
 
     }

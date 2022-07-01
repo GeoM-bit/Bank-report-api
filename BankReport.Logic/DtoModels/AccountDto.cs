@@ -5,7 +5,7 @@
         public Guid Id { get; set; }
         public AccountType AccountType { get; set; }
         public string Iban { get; set; }
-        public string QwnerName { get; set; }
+        public string OwnerName { get; set; }
         public string Currency { get; set; }
     }
     public enum AccountType

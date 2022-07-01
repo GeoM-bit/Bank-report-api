@@ -1,4 +1,5 @@
-﻿using BankReport.DatabaseModels;
+﻿using AutoMapper;
+using BankReport.DatabaseModels;
 using BankReport.Logic.DtoModels;
 using BankReport.Logic.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -8,40 +9,47 @@ namespace BankReport.Controllers.Controllers
     [Route("api/[controller]")]
     public class AccountController : ControllerBase
     {
-        private AccountRepository repository;
-        public AccountController(AccountRepository repository)
+        private readonly IRepository<Account, Guid> _repository;
+
+        private readonly IMapper _mapper;
+        public AccountController(IRepository<Account, Guid> repository, IMapper mapper)
         {
-            this.repository = repository;
+            _repository = repository;
+            _mapper = mapper;
         }
         [HttpGet]
-        public IQueryable<AccountDto> Get()
+        public async Task<List<AccountDto>> Get()
         {
-            return repository.GetAll();
+            var result = await _repository.GetAll();
+            var results = _mapper.Map<List<AccountDto>>(result);
+
+            return results;
         }
         [HttpGet("{id}")]
-        public AccountDto GetById(Guid id)
+        public async Task<AccountDto> GetById([FromRoute] Guid id)
         {
-            return repository.GetById(id);
+            var result = await _repository.GetById(id);
+            var results = _mapper.Map<AccountDto>(result);
+
+            return results;
         }
         
         [HttpPost]
-        public void Post(Account account)
+        public async Task Post(Account account)
         {
-            repository.Post(account);
-            repository.Save();
+            await _repository.Post(account);
         }
         
         [HttpPut("{id}")]
-        public void Put(Guid id)
+        public async Task Put(Guid id, Account account)
         {
-            repository.Put(id);
-            repository.Save();
+            await _repository.Put(id, account);   
         }
+        
         [HttpDelete("{id}")]
-        public void Delete(Guid id)
+        public async Task Delete(Guid id)
         {
-            repository.Delete(id);
-            repository.Save();
+            await _repository.Delete(id);
         }
       
     }

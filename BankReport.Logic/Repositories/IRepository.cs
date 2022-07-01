@@ -2,13 +2,13 @@
 
 namespace BankReport.Logic.Repositories
 {
-    public interface IRepository<T,Dto, K>
+    public interface IRepository<TEntity,TId>
     {
-        IQueryable<Dto> GetAll();
-        Dto GetById(K id);
-        void Post(T entity);
-        void Put(K id);
-        void Delete(K id);
+        Task<List<TEntity>> GetAll();
+        Task<TEntity> GetById(TId id);
+        Task Post(TEntity entity);
+        Task Put(TId id, TEntity entity);
+        Task Delete(TId id);
         void Save();
 
     }
