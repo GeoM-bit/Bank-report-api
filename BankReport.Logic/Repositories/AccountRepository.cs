@@ -53,7 +53,7 @@ namespace BankReport.Logic.Repositories
 
         public void Save()
         {
-            _context.SaveChanges();
+            _context.SaveChangesAsync();
         }
 
     }
