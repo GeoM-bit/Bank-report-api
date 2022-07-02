@@ -7,6 +7,8 @@
         Task Post(TEntity entity);
         Task Put(TId id, TEntity entity);
         Task Delete(TId id);
+        Task Report(TId id);
         void Save();
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using BankReport.Context;
 using BankReport.DatabaseModels;
+using BankReport.Logic.DtoModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace BankReport.Logic.Repositories
@@ -52,7 +53,12 @@ namespace BankReport.Logic.Repositories
 
         public void Save()
         {
-            _context.SaveChanges();
+            _context.SaveChangesAsync();
+        }
+
+        public async Task Report(Guid id)
+        {
+            
         }
     }
 }
