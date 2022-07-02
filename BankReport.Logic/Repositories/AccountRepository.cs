@@ -31,7 +31,7 @@ namespace BankReport.Logic.Repositories
         public async Task Post(Account account)
         {
             await _context.Accounts.AddAsync(account);
-            this.Save();
+            await this.Save();
         }
         
         public async Task Put(Guid id, Account account)
@@ -41,19 +41,19 @@ namespace BankReport.Logic.Repositories
             accountFromDb.Iban= account.Iban;   
             accountFromDb.AccountType = account.AccountType;
             _context.Accounts.Update(accountFromDb);
-            this.Save();
+            await this.Save();
         }
 
         public async Task Delete(Guid id)
         {
             var accountFromDb = await _context.Accounts.FirstOrDefaultAsync(x => x.Id == id);
             _context.Accounts.Remove(accountFromDb);
-            this.Save();
+            await this.Save();
         }
 
-        public void Save()
+        public async Task Save()
         {
-            _context.SaveChangesAsync();
+           await _context.SaveChangesAsync();
         }
 
     }
