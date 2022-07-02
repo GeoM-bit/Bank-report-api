@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BankReport.Context.Migrations
 {
     [DbContext(typeof(ReportBankDbContext))]
-    [Migration("20220629174947_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20220701151459_CreateMigration")]
+    partial class CreateMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,7 +34,7 @@ namespace BankReport.Context.Migrations
                     b.Property<string>("Iban")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("QwnerName")
+                    b.Property<string>("OwnerName")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

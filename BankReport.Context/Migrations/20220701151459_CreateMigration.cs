@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BankReport.Context.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class CreateMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,7 +16,7 @@ namespace BankReport.Context.Migrations
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     AccountType = table.Column<int>(type: "INTEGER", nullable: false),
                     Iban = table.Column<string>(type: "TEXT", nullable: true),
-                    QwnerName = table.Column<string>(type: "TEXT", nullable: true),
+                    OwnerName = table.Column<string>(type: "TEXT", nullable: true),
                     Currency = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
