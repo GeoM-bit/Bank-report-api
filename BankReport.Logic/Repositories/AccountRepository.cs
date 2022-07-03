@@ -52,7 +52,7 @@ namespace BankReport.Logic.Repositories
 
         public async Task Save()
         {
-            await _context.SaveChangesAsync();
+           await _context.SaveChangesAsync();
         }
 
     }
