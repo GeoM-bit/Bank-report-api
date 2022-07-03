@@ -6,6 +6,7 @@
         public double totalAmount { get; set; }
         public string currency { get; set; }
 
+        public DateTimeOffset transactDate { get; set; }
     }
     
 }

@@ -9,7 +9,7 @@ namespace BankReport.Logic.Repositories
         Task Post(TEntity entity);
         Task Put(TId id, TEntity entity);
         Task Delete(TId id);
-        void Save();
+        Task Save();
 
     }
 }

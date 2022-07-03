@@ -9,10 +9,10 @@ namespace BankReport.Controllers.Controllers
     [Route("api/[controller]")]
     public class TransactionController : ControllerBase
     {
-        private readonly IRepositoryTransaction<Transaction, Guid> _repository;
+        private readonly IRepositoryTransaction<Transaction, Guid, List<TransactionReport>> _repository;
 
         private readonly IMapper _mapper;
-        public TransactionController(IRepositoryTransaction<Transaction, Guid> repository, IMapper mapper)
+        public TransactionController(IRepositoryTransaction<Transaction, Guid, List<TransactionReport>> repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
@@ -51,6 +51,15 @@ namespace BankReport.Controllers.Controllers
         {
             await _repository.Delete(id);
         }
+        
+        [HttpGet("report/{id}")]
 
+        public async Task<Array> Report([FromRoute]Guid id)
+        {
+            var result = await _repository.Report(id);
+            var results = _mapper.Map<List<ReportDto>>(result).ToArray();
+            return results;
+        }
+        
     }
 }

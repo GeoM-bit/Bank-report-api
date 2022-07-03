@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BankReport.Logic.Repositories
 {
-    public class TransactionRepository:IRepositoryTransaction<Transaction, Guid>
+    public class TransactionRepository:IRepositoryTransaction<Transaction, Guid, List<TransactionReport>>
     {
         private readonly ReportBankDbContext _context;
 
@@ -31,7 +31,7 @@ namespace BankReport.Logic.Repositories
         public async Task Post(Transaction transaction)
         {
             await _context.Transactions.AddAsync(transaction);
-            this.Save();
+            await this.Save();
         }
 
         public async Task Put(Guid id, Transaction transaction)
@@ -41,24 +41,46 @@ namespace BankReport.Logic.Repositories
             transactionFromDb.CategoryTransaction= transaction.CategoryTransaction;
             transactionFromDb.TransactionDate = transaction.TransactionDate;
             _context.Transactions.Update(transactionFromDb);
-            this.Save();
+            await this.Save();
         }
 
         public async Task Delete(Guid id)
         {
             var transactionFromDb = await _context.Transactions.FirstOrDefaultAsync(x => x.Id == id);
             _context.Transactions.Remove(transactionFromDb);
-            this.Save();
+            await this.Save();
         }
 
-        public void Save()
+        public async Task Save()
         {
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
-        public async Task Report(Guid id)
-        {
+         public async Task<List<TransactionReport>> Report(Guid id)
+         {
+             var previousMonth = DateTimeOffset.Now.AddMonths(-1).Month;
             
-        }
+             var result = await
+                 (from transaction in _context.Transactions
+                  where (transaction.AccountId == id)
+                  group transaction by new TransactionReport
+                  {
+                      categoryName = (DtoModels.CategoryTransaction)transaction.CategoryTransaction,
+                      currency = transaction.Account.Currency,
+                      transactDate = transaction.TransactionDate,
+                  } into g
+                  select new TransactionReport
+                  {
+                      categoryName = g.Key.categoryName,
+                      totalAmount = g.Sum(x => x.Amount),
+                      currency = g.Key.currency,
+                      transactDate=g.Key.transactDate
+                  }
+                  ).ToListAsync();
+            var results =  result.Where(x => x.transactDate.Month == previousMonth).ToList();
+           
+            return results;
+         }
+
     }
 }
